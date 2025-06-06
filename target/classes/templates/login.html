@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>GestExpo - Iniciar Sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg,#a1a6bb 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --card-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #ffffff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .login-container {
+            position: relative;
+            z-index: 1;
+            padding-top: 120px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--success-gradient);
+        }
+        
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.2);
+        }
+        
+        .login-title {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-floating > .form-control {
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 1rem 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-floating > .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .form-floating > label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .btn-login {
+            background: var(--success-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.3);
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(17, 153, 142, 0.4);
+            color: white;
+        }
+        
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .register-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .register-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+            color: white;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 15%;
+            left: 10%;
+            font-size: 2rem;
+            animation-delay: 0s;
+        }
+        
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            font-size: 1.5rem;
+            animation-delay: 3s;
+        }
+        
+        .floating-element:nth-child(3) {
+            bottom: 25%;
+            left: 15%;
+            font-size: 1.8rem;
+            animation-delay: 6s;
+        }
+        
+        .floating-element:nth-child(4) {
+            top: 35%;
+            left: 80%;
+            font-size: 1.2rem;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+            }
+            33% { 
+                transform: translateY(-20px) rotate(5deg) scale(1.1); 
+            }
+            66% { 
+                transform: translateY(10px) rotate(-3deg) scale(0.9); 
+            }
+        }
+        
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+        }
+        
+        .login-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .login-title {
+                font-size: 1.8rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos flotantes decorativos -->
+    <div class="floating-elements">
+        <div class="floating-element">
+            <i class="bi bi-gear-fill"></i>
+        </div>
+        <div class="floating-element">
+            <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="floating-element">
+            <i class="bi bi-heart-fill"></i>
+        </div>
+        <div class="floating-element">
+            <i class="bi bi-lightning-fill"></i>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-calendar-event me-2"></i>ExpoGest
+            </a>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5 col-lg-4">
+                    <div class="login-card">
+                        <div class="login-icon">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        
+                        <h2 class="login-title text-center">Iniciar Sesión</h2>
+                        
+                        <form th:action="@{/login}" method="post">
+                            <div class="form-floating">
+                                <input type="email" id="correo" name="correo" class="form-control" placeholder="correo@ejemplo.com" required>
+                                <label for="correo"><i class="bi bi-envelope me-2"></i>Correo electrónico</label>
+                            </div>
+                            
+                            <div class="form-floating">
+                                <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required>
+                                <label for="contrasena"><i class="bi bi-lock me-2"></i>Contraseña</label>
+                            </div>
+                            
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-login">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">¿No tienes cuenta?</p>
+                            <a th:href="@{/registro}" class="register-link">Regístrate aquí</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center py-4">
+        <div class="container">
+            <small>© 2025 GestExpo. Todos los derechos reservados.</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

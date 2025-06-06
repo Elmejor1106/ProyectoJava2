@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Solicitudes de Stand</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Solicitudes de Stand</h1>
+    <nav>
+        <a th:href="@{/expositor/panelExpositor}">Volver al Panel</a>
+        <a th:href="@{/expositor/solicitudes/nueva}">Nueva Solicitud</a>
+    </nav>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Expositor</th>
+            <th>Stand</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+        <tr th:each="s : ${solicitudes}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.expositor.nombre}"></td>
+            <td th:text="${s.stand.nombre}"></td>
+            <td th:text="${s.descripcion}"></td>
+            <td>
+                <a th:href="@{/expositor/solicitudes/editar/{id}(id=${s.id})}">Editar</a>
+                <a th:href="@{/expositor/solicitudes/eliminar/{id}(id=${s.id})}" onclick="return confirm('¿Eliminar?');">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
